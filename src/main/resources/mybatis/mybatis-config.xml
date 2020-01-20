@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <plugins>
+        <plugin interceptor="com.liukang.tirrger.plugin.MyPlugin">
+            <property name="k1" value="v1"/>
+            <property name="k2" value="v2"/>
+            <property name="k3" value="v3"/>
+            <property name="k4" value="v4"/>
+        </plugin>
+    </plugins>
+</configuration>
