@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.connection.MessageListener;
@@ -22,6 +23,7 @@ import javax.annotation.PostConstruct;
 //@SpringBootApplication(scanBasePackages = {"com.liukang.tirrger.aspect"})
 @SpringBootApplication
 @MapperScan("com.liukang.tirrger.dao")
+@EnableCaching
 public class TirrgerApplication {
     @Autowired
     private RedisTemplate redisTemplate = null;

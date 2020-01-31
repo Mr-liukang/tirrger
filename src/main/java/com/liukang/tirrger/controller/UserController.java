@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -26,7 +28,7 @@ public class UserController {
     }
     @RequestMapping("/insertUser")
     @ResponseBody
-    public int insertUser(Long id,String userName,String note){
+    public User insertUser(Long id,String userName,String note){
         User user = new User();
         user.setNote(note);
         user.setUserName(userName);
@@ -56,6 +58,28 @@ public class UserController {
         List<User> users = userService.findUsers(userName,note);
 
         return users;
+    }
+    @RequestMapping("updateUserName")
+    @ResponseBody
+    public Map<String,Object> updateUserName(Long id, String userName){
+        User user = userService.updateUser(id,userName);
+        boolean flag = user !=null;
+        String message = flag?"更新成功":"更新失败";
+        return resultMap(flag,message);
+    }
+    @RequestMapping("/deleteUser")
+    @ResponseBody
+    public Map<String,Object> deleteUser(Long id){
+        int result = userService.deleteUser(id);
+        boolean flag = result ==1;
+        String message = flag?"删除成功":"删除失败";
+        return resultMap(flag,message);
+    }
+    private Map<String,Object> resultMap(boolean flag,String message){
+        Map<String,Object> result = new HashMap<>();
+        result.put("success",flag);
+        result.put("message",message);
+        return result;
     }
 
 

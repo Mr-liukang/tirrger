@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.connection.SortParameters;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -109,5 +111,40 @@ public class RedisController {
         return map;
 
 
+    }
+    @RequestMapping("/lua")
+    @ResponseBody
+    public Map<String,Object> testLua(){
+        DefaultRedisScript<String> rs = new DefaultRedisScript<String>();
+        rs.setScriptText("return 'Hello Redis'");
+        rs.setResultType(String.class);
+        RedisSerializer stringSerializer = redisTemplate.getStringSerializer();
+        String str = (String) redisTemplate.execute(rs,stringSerializer,stringSerializer,null);
+        Map<String,Object> map = new HashMap<>();
+        map.put("str",str);
+        return map;
+    }
+    @RequestMapping("/lua2")
+    @ResponseBody
+    public Map<String,Object> testLua2(String key1,String key2,String value1,String value2){
+        String lua = "redis.call('set',KEYS[1],ARGV[1])\n"+
+                     "redis.call('set',KEYS[2],ARGV[2])\n"+
+                    "local str1 = redis.call('get',KEYS[1])\n"+
+                    "local str2 = redis.call('get',KEYS[2])\n"+
+                    "if str1 == str2 then \n"+
+                    "return 1 \n"+
+                    "end \n"+
+                    "return 0\n";
+        DefaultRedisScript<Long> rs = new DefaultRedisScript<Long>();
+        rs.setScriptText(lua);
+        rs.setResultType(Long.class);
+        RedisSerializer stringSerializer = redisTemplate.getStringSerializer();
+        List<String> keyList = new ArrayList<>();
+        keyList.add(key1);
+        keyList.add(key2);
+        Long result  = (Long) redisTemplate.execute(rs, stringSerializer, stringSerializer, keyList, value1, value2);
+        Map<String,Object> map = new HashMap<>();
+        map.put("result",result);
+        return map;
     }
 }

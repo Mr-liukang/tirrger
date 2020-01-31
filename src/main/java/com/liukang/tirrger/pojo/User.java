@@ -5,8 +5,10 @@ import org.apache.ibatis.type.Alias;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 @Alias("user")
-public class User {
+public class User implements Serializable {
     @Value("1")
     private Long id ;
     @Value("userName")

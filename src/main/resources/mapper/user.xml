@@ -15,4 +15,15 @@
             <if test="note != null"> and note like concat(concat('%', #{note}), '%')</if>
         </where>
     </select>
+    <update id="updateUser">
+        update t_user
+        <set>
+            <if test="userName!=null">user_name=#{userName},</if>
+            <if test="note!=null">user_name=#{note},</if>
+        </set>
+        where id= #{id}
+    </update>
+    <delete id="deleteUser">
+        delete from t_user where id=#{id}
+    </delete>
 </mapper>
