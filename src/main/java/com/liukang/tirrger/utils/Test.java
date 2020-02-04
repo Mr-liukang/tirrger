@@ -2,6 +2,7 @@ package com.liukang.tirrger.utils;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
+import java.awt.*;
 import java.io.UnsupportedEncodingException;
 
 public class Test {
@@ -26,5 +27,11 @@ public class Test {
             e.printStackTrace();
         }
         System.out.println(ouputStr);
+        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        String[] fontName = e.getAvailableFontFamilyNames();
+        for (int i = 0; i < fontName.length; i++) {
+            System.out.println(fontName[i]);
+        }
+
     }
 }
