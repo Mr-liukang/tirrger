@@ -1,6 +1,7 @@
 package com.liukang.tirrger.service.impl;
 
 import com.liukang.tirrger.dao.UserDao;
+import com.liukang.tirrger.pojo.DataBaseRole;
 import com.liukang.tirrger.pojo.User;
 import com.liukang.tirrger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class UserServiceImpl implements UserService {
     //@Transactional(isolation = Isolation.READ_COMMITTED,timeout = 1)
     public User getUser(Long id) {
         return userDao.getUser(id);
+    }
+
+    @Override
+    @Transactional
+    public User getUserByUserName(String userName) {
+        return userDao.getUserByUserName(userName);
     }
 
     @Override
@@ -57,5 +64,11 @@ public class UserServiceImpl implements UserService {
     @CacheEvict(value = "redisCache",key = "'redis_user_'+#id",beforeInvocation = false)
     public int deleteUser(Long id) {
         return userDao.deleteUser(id);
+    }
+
+    @Override
+    @Transactional
+    public List<DataBaseRole> findUserROle(String userName) {
+       return userDao.findUserROle(userName);
     }
 }

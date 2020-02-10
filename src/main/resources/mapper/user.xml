@@ -3,7 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liukang.tirrger.dao.UserDao">
     <select id="getUser" parameterType="long" resultType="user">
-        select id,user_name as userName ,note from t_user where id = #{id}
+        select id,user_name as userName ,note,sex from t_user where id = #{id}
+    </select>
+    <select id="getUserByUserName" parameterType="string" resultType="user">
+        select id,user_name as userName,pwd from t_user where user_name = #{userName}
     </select>
     <insert id="insertUser" parameterType="user" >
        insert into t_user value (id,user_name,note) values (#{id},#{userName},#{note})
@@ -26,4 +29,15 @@
     <delete id="deleteUser">
         delete from t_user where id=#{id}
     </delete>
+    <select id="findUserROle" resultType="dataBaseRole">
+        SELECT
+            a.ID,
+            ROLE_ID roleId,
+            USER_ID userId
+        FROM
+            T_USER_ROLE A
+        LEFT JOIN T_USER b ON A .USER_ID = b. ID
+        WHERE
+            b.USER_NAME =#{userName}
+    </select>
 </mapper>

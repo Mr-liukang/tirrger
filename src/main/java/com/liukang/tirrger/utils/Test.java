@@ -1,6 +1,8 @@
 package com.liukang.tirrger.utils;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
@@ -27,11 +29,15 @@ public class Test {
             e.printStackTrace();
         }
         System.out.println(ouputStr);
-        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        /*GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] fontName = e.getAvailableFontFamilyNames();
         for (int i = 0; i < fontName.length; i++) {
             System.out.println(fontName[i]);
-        }
+        }*/
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String admin = passwordEncoder.encode("admin");
+        System.out.println("加密后的密码 "+admin);
 
     }
 }
